@@ -90,3 +90,54 @@ result = garbage()
 print(result)  # "The garbage was taken out by the kids"
 
 # Now write two more decorator functions named @dad and @mom and place them above the functions that you want to assign to the parents. The output should be appended with "by Dad" or "by Mom".
+
+
+# Your job is to write a decorator function named sort_by_name that you can use on vendors, employees, customers, and deceased so that the ORDER BY last_name ASC, first_name ASC clause is added to them.
+def sort_by_name(func):
+    def by_name(self):
+        name = func(self)
+        if "ORDER BY" not in name:
+            name += " ORDER BY last_name ASC, first_name ASC"
+        return name
+    return by_name
+
+
+class Queries:
+
+    @sort_by_name
+    def customers(self):
+        return "SELECT * FROM Customer"
+
+    def coffins(self):
+        return "SELECT * FROM Coffin"
+
+    @sort_by_name
+    def employees(self):
+        return "SELECT * FROM Employee"
+
+    def gravestones(self):
+        return "SELECT * FROM GraveStones"
+
+    @sort_by_name
+    def deceased(self):
+        return "SELECT * FROM Deceased"
+
+    def obelisks(self):
+        return "SELECT * FROM Obelisk"
+
+    @sort_by_name
+    def vendors(self):
+        return "SELECT * FROM Vendor"
+
+
+# Here's some sample output for a properly implemented decorator.
+queries = Queries()
+
+print(queries.customers())
+print(queries.coffins())
+print(queries.employees())
+
+# # Output
+# SELECT * FROM Customer ORDER BY last_name ASC, first_name ASC
+# SELECT * FROM Coffin
+# SELECT * FROM Employee ORDER BY last_name ASC, first_name ASC
